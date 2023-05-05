@@ -1,6 +1,5 @@
 package com.insane.eyewalk.api.user;
 
-import com.insane.eyewalk.api.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

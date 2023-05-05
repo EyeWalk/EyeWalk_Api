@@ -9,8 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import java.time.LocalDate;
 import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 
 @Data
@@ -40,10 +41,10 @@ public class User implements UserDetails {
     private boolean active = true;
 
     @Column(name = "dt_created")
-    private Date created = new Date();
+    private LocalDate created = LocalDate.now();
 
     @Column(name = "dt_last_visit")
-    private Date lastVisit = new Date();
+    private LocalDate lastVisit = LocalDate.now();
 
     @Enumerated(EnumType.STRING)
     private Role role;

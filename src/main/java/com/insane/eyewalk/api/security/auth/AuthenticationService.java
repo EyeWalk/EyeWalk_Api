@@ -17,12 +17,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
   private final UserRepository repository;
   private final TokenRepository tokenRepository;
+  private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
   private final JwtService jwtService;
   private final AuthenticationManager authenticationManager;
@@ -32,6 +34,8 @@ public class AuthenticationService {
         .name(request.getName())
         .email(request.getEmail())
         .password(passwordEncoder.encode(request.getPassword()))
+        .created(LocalDate.now())
+        .lastVisit(LocalDate.now())
         .role(request.getRole())
         .build();
     var savedUser = repository.save(user);
@@ -71,7 +75,9 @@ public class AuthenticationService {
         .expired(false)
         .revoked(false)
         .build();
+    user.setLastVisit(LocalDate.now());
     tokenRepository.save(token);
+    userRepository.save(user);
   }
 
   private void revokeAllUserTokens(User user) {
