@@ -32,7 +32,7 @@ public class InitializerController {
     @PostMapping
     public String registerAdmin(Model model, @Param("registerRequest") RegisterRequest registerRequest, @Param("passwordVerify") String passwordVerify) {
         if (!userService.existsAdmin()) {
-            if (userService.validateCredential(registerRequest, passwordVerify)) {
+            if (userService.validateRegisterRequest(registerRequest, passwordVerify)) {
                 AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest);
                 model.addAttribute("username", registerRequest.getName());
                 model.addAttribute("key", authenticationResponse.getAccessToken());

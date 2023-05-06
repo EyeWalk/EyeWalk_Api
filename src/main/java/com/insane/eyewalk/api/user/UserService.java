@@ -15,7 +15,7 @@ public class UserService {
         return userRepository.count() > 0;
     }
 
-    public boolean validateCredential(RegisterRequest registerRequest, String passwordVerify) {
+    public boolean validateRegisterRequest(RegisterRequest registerRequest, String passwordVerify) {
         return (
                 !registerRequest.getName().isEmpty() &&
                 !registerRequest.getEmail().isEmpty() &&
@@ -25,7 +25,13 @@ public class UserService {
         );
     }
 
-    public User getUser(String username) {
+    /**
+     * Get a user from repository
+     * @param username user's identification email
+     * @return a User if exists otherwise will throw an Exception type UsernameNotFoundException
+     * @throws UsernameNotFoundException
+     */
+    public User getUser(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
     }
 

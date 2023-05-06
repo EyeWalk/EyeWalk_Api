@@ -5,6 +5,7 @@ import com.insane.eyewalk.api.security.config.JwtService;
 import com.insane.eyewalk.api.security.token.Token;
 import com.insane.eyewalk.api.security.token.TokenRepository;
 import com.insane.eyewalk.api.security.token.TokenType;
+import com.insane.eyewalk.api.user.Permission;
 import com.insane.eyewalk.api.user.User;
 import com.insane.eyewalk.api.user.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,11 +14,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import static com.insane.eyewalk.api.user.Permission.*;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -119,4 +122,34 @@ public class AuthenticationService {
       }
     }
   }
+
+  /**
+   * This method will validate a register request. To be able to register an account with Administrator permissions
+   * or Manager permissions the user must have an Admin Role. Otherwise, to register any other type of account
+   * any active user will validate the request.
+   * @param username principal user
+   * @param registerRequest account register request
+   * @return boolean true if valid to proceed
+   * @throws UsernameNotFoundException if no username found on repository
+   */
+  public boolean validateRegisterRequest(String username, RegisterRequest registerRequest) throws UsernameNotFoundException {
+    User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+    Set<Permission> userPermissions = user.getRole().getPermissions();
+    Set<Permission> requestPermissions = registerRequest.getRole().getPermissions();
+    if (
+            requestPermissions.contains(ADMIN_READ) ||
+            requestPermissions.contains(ADMIN_UPDATE) ||
+            requestPermissions.contains(ADMIN_DELETE) ||
+            requestPermissions.contains(ADMIN_CREATE) ||
+            requestPermissions.contains(EDITOR_READ) ||
+            requestPermissions.contains(EDITOR_UPDATE) ||
+            requestPermissions.contains(EDITOR_DELETE) ||
+            requestPermissions.contains(EDITOR_CREATE)
+    ) {
+      // NEEDS TO BE AN ADMIN TO BE ABLE TO REGISTER AN ACCOUNT WITH THESE PERMISSIONS
+      return (userPermissions.contains(Permission.ADMIN_CREATE) && user.isActive());
+    }
+    return (userPermissions.contains(Permission.USER_CREATE) && user.isActive());
+  }
+
 }
