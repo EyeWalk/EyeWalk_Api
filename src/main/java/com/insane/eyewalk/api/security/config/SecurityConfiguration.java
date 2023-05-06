@@ -34,11 +34,14 @@ public class SecurityConfiguration {
         .csrf()
         .disable()
         .authorizeHttpRequests()
-        .requestMatchers("/v3/api-docs",
+        .requestMatchers(
+                "/v3/api-docs",
                 "/v3/api-docs/**",
                 "/swagger-resources",
                 "/swagger-resources/**",
-                "/swagger-ui/**").permitAll()
+                "/swagger-ui/**",
+                "/api/v1/auth/**"
+        ).permitAll()
         .requestMatchers(GET, "/error","init/**","/**.html","/resources/**").permitAll()
         .requestMatchers(POST,"/init/**").permitAll()
 
