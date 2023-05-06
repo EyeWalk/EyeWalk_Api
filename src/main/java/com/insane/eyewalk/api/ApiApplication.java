@@ -23,36 +23,36 @@ public class ApiApplication {
 		SpringApplication.run(ApiApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner commandLineRunner(
-			AuthenticationService service
-	) {
-		return args -> {
-			var admin = RegisterRequest.builder()
-					.name("Admin")
-					.email("admin@email.com")
-					.password("admin")
-					.role(ADMIN)
-					.build();
-			if (userRepository.findByEmail(admin.getEmail()).isPresent()) {
-				System.out.println("Admin token " + service.authenticate(new AuthenticationRequest(admin.getEmail(), admin.getPassword())).getAccessToken());
-			} else {
-				System.out.println("Admin token: " + service.register(admin).getAccessToken());
-			}
-
-			var manager = RegisterRequest.builder()
-					.name("Manager")
-					.email("manager@email.com")
-					.password("manager")
-					.role(MANAGER)
-					.build();
-			if (userRepository.findByEmail(manager.getEmail()).isPresent()) {
-				System.out.println("Manager token " + service.authenticate(new AuthenticationRequest(manager.getEmail(), manager.getPassword())).getAccessToken());
-			} else {
-				System.out.println("Manager token: " + service.register(manager).getAccessToken());
-			}
-
-		};
-	}
+//	@Bean
+//	public CommandLineRunner commandLineRunner(
+//			AuthenticationService service
+//	) {
+//		return args -> {
+//			var admin = RegisterRequest.builder()
+//					.name("Admin")
+//					.email("admin@email.com")
+//					.password("admin")
+//					.role(ADMIN)
+//					.build();
+//			if (userRepository.findByEmail(admin.getEmail()).isPresent()) {
+//				System.out.println("Admin token " + service.authenticate(new AuthenticationRequest(admin.getEmail(), admin.getPassword())).getAccessToken());
+//			} else {
+//				System.out.println("Admin token: " + service.register(admin).getAccessToken());
+//			}
+//
+//			var manager = RegisterRequest.builder()
+//					.name("Manager")
+//					.email("manager@email.com")
+//					.password("manager")
+//					.role(MANAGER)
+//					.build();
+//			if (userRepository.findByEmail(manager.getEmail()).isPresent()) {
+//				System.out.println("Manager token " + service.authenticate(new AuthenticationRequest(manager.getEmail(), manager.getPassword())).getAccessToken());
+//			} else {
+//				System.out.println("Manager token: " + service.register(manager).getAccessToken());
+//			}
+//
+//		};
+//	}
 
 }

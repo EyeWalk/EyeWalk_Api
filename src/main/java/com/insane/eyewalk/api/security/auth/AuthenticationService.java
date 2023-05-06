@@ -36,6 +36,7 @@ public class AuthenticationService {
         .password(passwordEncoder.encode(request.getPassword()))
         .created(LocalDate.now())
         .lastVisit(LocalDate.now())
+        .active(true)
         .role(request.getRole())
         .build();
     var savedUser = repository.save(user);
