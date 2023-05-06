@@ -22,17 +22,16 @@ import io.swagger.v3.oas.annotations.servers.Server;
                 license = @License(
                         name = "License",
                         url = "https://github.com/EyeWalk"
-                ),
-                termsOfService = "Terms of service"
+                )
         ),
         servers = {
                 @Server(
-                        description = "LOCAL ENVIRONMENT",
-                        url = "http://localhost:8080"
+                        description = "REMOTE ENVIRONMENT",
+                        url = "https://insane-eyewalk.rcastrucci.com"
                 ),
                 @Server(
-                        description = "PRODUCTION ENVIRONMENT",
-                        url = "https://github.com/EyeWalk"
+                        description = "LOCAL ENVIRONMENT",
+                        url = "http://localhost:8080"
                 )
         },
         security = {
