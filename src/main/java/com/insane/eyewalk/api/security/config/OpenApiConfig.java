@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.info.License;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import io.swagger.v3.oas.annotations.servers.Server;
+import org.springframework.beans.factory.annotation.Value;
 
 @OpenAPIDefinition(
         info = @Info(
@@ -27,7 +28,7 @@ import io.swagger.v3.oas.annotations.servers.Server;
         servers = {
                 @Server(
                         description = "REMOTE ENVIRONMENT",
-                        url = "https://insane-eyewalk.rcastrucci.com"
+                        url = "https://api.eyewalk.42g.com.br"
                 ),
                 @Server(
                         description = "LOCAL ENVIRONMENT",
