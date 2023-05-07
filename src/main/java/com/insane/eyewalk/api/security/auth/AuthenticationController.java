@@ -63,7 +63,7 @@ public class AuthenticationController {
     /**
      * Method to refresh user's token using the refresh token
      * @param request Http Servlet Request containing on header the Authorization Bearer token
-     * @param response Status Code 200 OK with new access token and refresh token on body or 403 if invalid token
+     * @param response Status Code 200 OK with new access token and refresh token on body, 401 no token present or 403 if invalid token
      * @throws IOException
      */
     @PostMapping("/refresh-token")
