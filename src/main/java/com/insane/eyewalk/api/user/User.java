@@ -1,6 +1,8 @@
 package com.insane.eyewalk.api.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.insane.eyewalk.api.model.Contact;
+import com.insane.eyewalk.api.model.Picture;
 import com.insane.eyewalk.api.security.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -52,6 +55,11 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_contact"), name = "tb_user_contact")
+    @JsonIgnore
+    private List<Contact> contacts = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
