@@ -23,7 +23,7 @@ public class InitializerController {
 
     @GetMapping
     public String initializeAPI() {
-        if (userService.existsAdmin())
+        if (userService.adminExists())
             return new ErrorController().error();
         else
             return "initializer/register";
@@ -31,8 +31,8 @@ public class InitializerController {
 
     @PostMapping
     public String registerAdmin(Model model, @Param("registerRequest") RegisterRequest registerRequest, @Param("passwordVerify") String passwordVerify) {
-        if (!userService.existsAdmin()) {
-            if (userService.validateRegisterRequest(registerRequest, passwordVerify)) {
+        if (!userService.adminExists()) {
+            if (authenticationService.validateRegisterRequest(registerRequest, passwordVerify)) {
                 AuthenticationResponse authenticationResponse = authenticationService.register(registerRequest);
                 model.addAttribute("username", registerRequest.getName());
                 model.addAttribute("key", authenticationResponse.getAccessToken());

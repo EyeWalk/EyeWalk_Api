@@ -1,6 +1,5 @@
 package com.insane.eyewalk.api.user;
 
-import com.insane.eyewalk.api.security.auth.RegisterRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -11,18 +10,21 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public boolean existsAdmin() {
-        return userRepository.count() > 0;
+    /**
+     * Method to verify if an administrator user exists
+     * @return boolean true if admin role exists
+     */
+    public boolean adminExists() {
+        return userRepository.existsUserByRole(Role.ADMIN);
     }
 
-    public boolean validateRegisterRequest(RegisterRequest registerRequest, String passwordVerify) {
-        return (
-                !registerRequest.getName().isEmpty() &&
-                !registerRequest.getEmail().isEmpty() &&
-                !registerRequest.getPassword().isEmpty() &&
-                (registerRequest.getPassword().length() >= 5) &&
-                (registerRequest.getPassword().equals(passwordVerify))
-        );
+    /**
+     * Verify if user exists on repository
+     * @param email user's email
+     * @return boolean true if user exists
+     */
+    public boolean userEmailExists(String email) {
+        return userRepository.existsUserByEmail(email);
     }
 
     /**

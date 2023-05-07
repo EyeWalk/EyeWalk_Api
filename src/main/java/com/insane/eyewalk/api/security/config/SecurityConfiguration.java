@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                 "/swagger-ui/**",
                 "/api/v1/auth/**"
         ).permitAll()
-        .requestMatchers(GET, "/error","init/**","/**.html","/resources/**").permitAll()
+        .requestMatchers(GET, "/","/error","init/**","/**.html","/resources/**").permitAll()
         .requestMatchers(POST,"/init/**").permitAll()
 
         .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), EDITOR.name())
