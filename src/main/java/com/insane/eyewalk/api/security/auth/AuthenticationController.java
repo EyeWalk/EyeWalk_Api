@@ -1,7 +1,9 @@
 package com.insane.eyewalk.api.security.auth;
 
+import com.insane.eyewalk.api.user.Permission;
 import com.insane.eyewalk.api.user.Role;
 import com.insane.eyewalk.api.user.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
+@Tag(name = "Authentication")
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -39,7 +42,7 @@ public class AuthenticationController {
              return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
         // ADMIN OR EDITOR ROLES NEEDS TO BE A SUPERUSER TO BE ABLE TO REGISTER
         if (request.getRole() == Role.ADMIN || request.getRole() == Role.EDITOR) {
-            if (principal != null && authenticationService.validatePermissionCreate(principal.getName()))
+            if (authenticationService.validatePermission(principal, Permission.ADMIN_CREATE))
                 return ResponseEntity.ok(authenticationService.register(request));
             else
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);

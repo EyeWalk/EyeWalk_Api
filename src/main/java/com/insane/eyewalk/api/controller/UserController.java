@@ -4,6 +4,7 @@ import com.insane.eyewalk.api.model.view.UserView;
 import com.insane.eyewalk.api.user.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/v1/user-controller")
+@RequestMapping("/api/v1/user")
+@Tag(name = "User")
 public class UserController {
 
     @Autowired
@@ -25,19 +27,12 @@ public class UserController {
     private ModelMapper mapper;
 
   @Operation(
-          description = "Get endpoint for user role",
-          summary = "User endpoint",
+          summary = "View user details",
+          description = "To get user details the request must contain the user token.",
           responses = {
-                  @ApiResponse(
-                          description = "Success",
-                          responseCode = "200"
-                  ),
-                  @ApiResponse(
-                          description = "Unauthorized / Invalid Token",
-                          responseCode = "403"
-                  )
+                  @ApiResponse(description = "Success",responseCode = "200"),
+                  @ApiResponse(description = "Unauthorized / Invalid Token",responseCode = "403")
           }
-
   )
   @GetMapping
   @ResponseBody

@@ -4,6 +4,7 @@ import com.insane.eyewalk.api.security.config.JwtService;
 import com.insane.eyewalk.api.security.token.Token;
 import com.insane.eyewalk.api.security.token.TokenRepository;
 import com.insane.eyewalk.api.security.token.TokenType;
+import com.insane.eyewalk.api.user.Permission;
 import com.insane.eyewalk.api.user.User;
 import com.insane.eyewalk.api.user.UserRepository;
 import com.insane.eyewalk.api.user.UserService;
@@ -16,7 +17,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import static com.insane.eyewalk.api.user.Permission.*;
+
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
@@ -141,13 +143,14 @@ public class AuthenticationService {
 
     /**
      * Validates if the user is a superuser and has permission to create other superusers.
-     * @param username user's email or principal name
-     * @return boolean true if useer has permission to create superusers
+     * @param principal user's identification email or principal
+     * @return boolean true if user has permission to create superusers
      * @throws UsernameNotFoundException if user was not found on repository
      */
-    public boolean validatePermissionCreate(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException(("User not found!")));
-        return (user.isActive() && user.getRole().getPermissions().contains(ADMIN_CREATE));
+    public boolean validatePermission(Principal principal, Permission permission) throws UsernameNotFoundException {
+        if (principal == null || permission == null) return false;
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new UsernameNotFoundException(("User not found!")));
+        return (user.isActive() && user.getRole().getPermissions().contains(permission));
     }
 
     /**
