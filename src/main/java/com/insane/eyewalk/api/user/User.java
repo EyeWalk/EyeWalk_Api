@@ -47,6 +47,7 @@ public class User implements UserDetails {
     private LocalDate lastVisit = LocalDate.now();
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "nm_role")
     private Role role;
 
     @OneToMany(mappedBy = "user")

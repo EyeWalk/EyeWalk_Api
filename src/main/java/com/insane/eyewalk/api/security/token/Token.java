@@ -24,10 +24,13 @@ public class Token {
     public String token;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "ds_type")
     public TokenType tokenType = TokenType.BEARER;
 
+    @Column(name = "bl_revoked")
     public boolean revoked;
 
+    @Column(name = "bl_expired")
     public boolean expired;
 
     @ManyToOne(fetch = FetchType.LAZY)
