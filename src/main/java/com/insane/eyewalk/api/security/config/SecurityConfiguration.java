@@ -42,8 +42,14 @@ public class SecurityConfiguration {
                 "/swagger-ui/**",
                 "/api/v1/auth/**"
         ).permitAll()
-        .requestMatchers(GET, "/","/error","init/**","/**.html","/resources/**","/api/v1/plan/**").permitAll()
+        .requestMatchers(GET, "/","/error","init/**","/**.html","/resources/**").permitAll()
         .requestMatchers(POST,"/init/**").permitAll()
+
+        .requestMatchers("/api/v1/plan/**").permitAll()
+        .requestMatchers(GET, "/api/v1/plan/**").permitAll()
+        .requestMatchers(POST, "/api/v1/plan").hasAnyAuthority(ADMIN_CREATE.name(), EDITOR_CREATE.name())
+        .requestMatchers(PUT, "/api/v1/plan").hasAnyAuthority(ADMIN_UPDATE.name(), EDITOR_UPDATE.name())
+        .requestMatchers(DELETE, "/api/v1/plan").hasAnyAuthority(ADMIN_DELETE.name())
 
         .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), EDITOR.name())
         .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), EDITOR_READ.name())
