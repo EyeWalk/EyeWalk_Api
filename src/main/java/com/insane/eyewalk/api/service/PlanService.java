@@ -51,6 +51,7 @@ public class PlanService {
             Plan updatedPlan = modelMapper.map(planInput, Plan.class);
             if (updatedPlan.getName().isEmpty() || updatedPlan.getName() == null) updatedPlan.setName(currentPlan.getName());
             if (updatedPlan.getDescription().isEmpty() || updatedPlan.getDescription() == null) updatedPlan.setDescription(currentPlan.getDescription());
+            if (updatedPlan.getPrice() == null) updatedPlan.setPrice(currentPlan.getPrice());
             updatedPlan.setId(id);
             return planRepository.save(updatedPlan);
         }

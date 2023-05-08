@@ -2,13 +2,11 @@ package com.insane.eyewalk.api.controller;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1/management")
-@RequiredArgsConstructor
 @Tag(name = "Management")
 @Hidden
 public class ManagementController {
