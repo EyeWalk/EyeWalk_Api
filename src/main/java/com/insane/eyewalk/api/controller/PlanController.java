@@ -1,5 +1,6 @@
 package com.insane.eyewalk.api.controller;
 
+import com.insane.eyewalk.api.config.ModelMapperList;
 import com.insane.eyewalk.api.model.input.PlanInput;
 import com.insane.eyewalk.api.model.view.PlanView;
 import com.insane.eyewalk.api.service.PlanService;
@@ -7,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/plan")
@@ -23,7 +22,7 @@ import java.util.stream.Collectors;
 @Tag(name = "Plan")
 public class PlanController {
 
-    private final ModelMapper modelMapper;
+    private final ModelMapperList modelMapping;
     private final PlanService planService;
 
     @Operation(
@@ -39,7 +38,7 @@ public class PlanController {
     @ResponseBody
     public ResponseEntity<PlanView> createPlan(@RequestBody PlanInput planInput, Principal principal) {
         try {
-            return ResponseEntity.ok(modelMapper.map(planService.createPlan(planInput, principal), PlanView.class));
+            return ResponseEntity.ok(modelMapping.map(planService.createPlan(planInput, principal), PlanView.class));
         } catch (IllegalAccessError e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
         }
@@ -50,7 +49,8 @@ public class PlanController {
             description = "To be able to update plans, user must have editor update permission.",
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200"),
-                    @ApiResponse(description = "Unauthorized / Invalid Token", responseCode = "403")
+                    @ApiResponse(description = "Unauthorized / Invalid Token", responseCode = "403"),
+                    @ApiResponse(description = "Not Found", responseCode = "404")
             }
     )
     @PutMapping("/{id}")
@@ -58,7 +58,7 @@ public class PlanController {
     @ResponseBody
     public ResponseEntity<PlanView> updatePlan(@PathVariable long id, @RequestBody PlanInput planInput, Principal principal) {
         try {
-            return ResponseEntity.ok(modelMapper.map(planService.updatePlan(id, planInput, principal), PlanView.class));
+            return ResponseEntity.ok(modelMapping.map(planService.updatePlan(id, planInput, principal), PlanView.class));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         } catch (IllegalAccessError e) {
@@ -94,7 +94,7 @@ public class PlanController {
     )
     @GetMapping
     public ResponseEntity<List<PlanView>> listPlans() {
-        return ResponseEntity.ok(mapList(planService.listPlans(), PlanView.class));
+        return ResponseEntity.ok(modelMapping.mapList(planService.listPlans(), PlanView.class));
     }
 
     @Operation(
@@ -108,17 +108,10 @@ public class PlanController {
     @GetMapping("/{id}")
     public ResponseEntity<PlanView> getPlan(@PathVariable long id) {
         try {
-            return ResponseEntity.ok(modelMapper.map(planService.getPlan(id), PlanView.class));
+            return ResponseEntity.ok(modelMapping.map(planService.getPlan(id), PlanView.class));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-    }
-
-    <S, T> List<T> mapList(List<S> source, Class<T> targetClass) {
-        return source
-                .stream()
-                .map(element -> modelMapper.map(element, targetClass))
-                .collect(Collectors.toList());
     }
 
 }

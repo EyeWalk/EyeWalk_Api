@@ -12,4 +12,9 @@ public class ModelMapperConfig {
         return new ModelMapper();
     }
 
+    @Bean
+    public ModelMapperList modelMapperList() {
+        return new ModelMapperList(new ModelMapper());
+    }
+
 }
