@@ -142,9 +142,11 @@ public class AuthenticationService {
     }
 
     /**
-     * Validates if the user is a superuser and has permission to create other superusers.
+     * Validates if the user is active and if it has permission to access the service requested.
+     * The permission should be already validated on SecurityConfiguration but if any endpoint get exposed
+     * Here the validation would take effect otherwise it will check if the user is active or not.
      * @param principal user's identification email or principal
-     * @return boolean true if user has permission to create superusers
+     * @return boolean true if user is active and has permission to go through
      * @throws UsernameNotFoundException if user was not found on repository
      */
     public boolean validatePermission(Principal principal, Permission permission) throws UsernameNotFoundException {

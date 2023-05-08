@@ -13,8 +13,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1/plan")
@@ -27,6 +28,16 @@ public class PlanController {
     private PlanService planService;
 
     @Operation(
+            summary = "List all Plans available",
+            description = "No permissions needed.",
+            responses = {@ApiResponse(description = "Success", responseCode = "200")}
+    )
+    @GetMapping
+    public ResponseEntity<List<PlanView>> listPlans() {
+        return ResponseEntity.ok(mapList(planService.listPlans(), PlanView.class));
+    }
+
+    @Operation(
             summary = "Get Plan",
             description = "No permissions needed to retrieve a plan detail.",
             responses = {
@@ -35,12 +46,19 @@ public class PlanController {
             }
     )
     @GetMapping("/{id}")
-    public ResponseEntity<PlanView> get(@PathVariable long id) {
+    public ResponseEntity<PlanView> getPlan(@PathVariable long id) {
         try {
             return ResponseEntity.ok(modelMapper.map(planService.getPlan(id), PlanView.class));
         } catch (NoSuchElementException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
+    }
+
+    <S, T> List<T> mapList(List<S> source, Class<T> targetClass) {
+        return source
+                .stream()
+                .map(element -> modelMapper.map(element, targetClass))
+                .collect(Collectors.toList());
     }
 
 }

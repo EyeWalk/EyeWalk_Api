@@ -3,6 +3,8 @@ package com.insane.eyewalk.api.security.auth;
 import com.insane.eyewalk.api.user.Permission;
 import com.insane.eyewalk.api.user.Role;
 import com.insane.eyewalk.api.user.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -31,6 +33,16 @@ public class AuthenticationController {
      * @param principal is only needed to register superusers
      * @return Status code 200 OK, 403 Forbidden, 406 NotAcceptable if missing/invalid fields or 409 Conflict if email already exists on database
      */
+     @Operation(
+            summary = "Register a new user",
+            description = "To register users with roles as Editor or Admin. The requester user must be an Administrator with create permission." +
+                    "To register regular user no need to pass on body the role attribute. If the role informed is different than what is " +
+                    "on the schema enum list, the USER role will be considered.",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200"),
+                    @ApiResponse(description = "Unauthorized / Invalid Token", responseCode = "403")
+            }
+     )
      @PostMapping("/register")
      public ResponseEntity<AuthenticationResponse> register(@RequestBody RegisterRequest request, Principal principal) {
 
@@ -58,6 +70,14 @@ public class AuthenticationController {
      * @param authenticationRequest Authentication request body
      * @return Status code 200 OK if authenticated or else 403 Forbidden
      */
+    @Operation(
+            summary = "Authenticate user",
+            description = "Authenticate an existing user to retrieve the access token and refresh token. All previous tokens will be set to expired!",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200"),
+                    @ApiResponse(description = "Unauthorized / Invalid Token", responseCode = "403")
+            }
+    )
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody AuthenticationRequest authenticationRequest) {
         return ResponseEntity.ok(authenticationService.authenticate(authenticationRequest));
@@ -69,6 +89,15 @@ public class AuthenticationController {
      * @param response Status Code 200 OK with new access token and refresh token on body, 401 no token present or 403 if invalid token
      * @throws IOException
      */
+    @Operation(
+            summary = "Refresh token",
+            description = "To refresh a token is necessary to pass the refresh_token on the header as Authorization Bearer.",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200"),
+                    @ApiResponse(description = "Unauthorized", responseCode = "401"),
+                    @ApiResponse(description = "Unauthorized / Invalid Token", responseCode = "403")
+            }
+    )
     @PostMapping("/refresh-token")
     public ResponseEntity<AuthenticationResponse> refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         AuthenticationResponse authenticationResponse = authenticationService.refreshToken(request, response);
