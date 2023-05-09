@@ -1,4 +1,4 @@
-package com.insane.eyewalk.api.controller;
+package com.insane.eyewalk.api.controller.rest;
 
 import com.insane.eyewalk.api.config.ModelMapperList;
 import com.insane.eyewalk.api.model.input.PlanInput;

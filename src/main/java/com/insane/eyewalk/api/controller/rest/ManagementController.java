@@ -1,4 +1,4 @@
-package com.insane.eyewalk.api.controller;
+package com.insane.eyewalk.api.controller.rest;
 
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.tags.Tag;

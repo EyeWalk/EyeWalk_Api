@@ -1,10 +1,10 @@
 package com.insane.eyewalk.api.service;
 
-import com.insane.eyewalk.api.model.Plan;
+import com.insane.eyewalk.api.model.domain.Plan;
 import com.insane.eyewalk.api.model.input.PlanInput;
 import com.insane.eyewalk.api.repositories.PlanRepository;
 import com.insane.eyewalk.api.security.auth.AuthenticationService;
-import com.insane.eyewalk.api.user.Permission;
+import com.insane.eyewalk.api.security.enums.Permission;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

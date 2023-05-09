@@ -1,14 +1,13 @@
-package com.insane.eyewalk.api.controller;
+package com.insane.eyewalk.api.controller.rest;
 
 import com.insane.eyewalk.api.config.ModelMapperList;
 import com.insane.eyewalk.api.model.view.UserView;
-import com.insane.eyewalk.api.user.UserService;
+import com.insane.eyewalk.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;

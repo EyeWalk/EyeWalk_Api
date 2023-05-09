@@ -1,6 +1,6 @@
 package com.insane.eyewalk.api.security.auth;
 
-import com.insane.eyewalk.api.user.Role;
+import com.insane.eyewalk.api.security.enums.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

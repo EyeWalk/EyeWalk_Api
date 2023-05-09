@@ -1,10 +1,10 @@
-package com.insane.eyewalk.api.controller;
+package com.insane.eyewalk.api.controller.web;
 
 import com.insane.eyewalk.api.security.auth.AuthenticationResponse;
 import com.insane.eyewalk.api.security.auth.AuthenticationService;
 import com.insane.eyewalk.api.security.auth.RegisterRequest;
-import com.insane.eyewalk.api.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.insane.eyewalk.api.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,12 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/init")
+@RequiredArgsConstructor
 public class InitializerController {
 
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final UserService userService;
+    private final AuthenticationService authenticationService;
 
     @GetMapping
     public String initializeAPI() {

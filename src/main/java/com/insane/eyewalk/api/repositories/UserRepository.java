@@ -1,5 +1,7 @@
-package com.insane.eyewalk.api.user;
+package com.insane.eyewalk.api.repositories;
 
+import com.insane.eyewalk.api.security.enums.Role;
+import com.insane.eyewalk.api.model.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

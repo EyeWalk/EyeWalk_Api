@@ -1,7 +1,6 @@
-package com.insane.eyewalk.api.model;
+package com.insane.eyewalk.api.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.insane.eyewalk.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

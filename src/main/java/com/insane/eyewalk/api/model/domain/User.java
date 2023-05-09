@@ -1,10 +1,8 @@
-package com.insane.eyewalk.api.user;
+package com.insane.eyewalk.api.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.insane.eyewalk.api.model.Contact;
-import com.insane.eyewalk.api.model.Picture;
-import com.insane.eyewalk.api.model.Plan;
 import com.insane.eyewalk.api.security.token.Token;
+import com.insane.eyewalk.api.security.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -57,9 +55,8 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_contact"), name = "tb_user_contact")
-    @JsonIgnore
     private List<Contact> contacts = new ArrayList<>();
 
     @ManyToOne

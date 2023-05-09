@@ -1,6 +1,12 @@
-package com.insane.eyewalk.api.user;
+package com.insane.eyewalk.api.service;
 
+import com.insane.eyewalk.api.config.ModelMapperList;
+import com.insane.eyewalk.api.repositories.ContactRepository;
 import com.insane.eyewalk.api.security.auth.AuthenticationService;
+import com.insane.eyewalk.api.security.enums.Permission;
+import com.insane.eyewalk.api.security.enums.Role;
+import com.insane.eyewalk.api.model.domain.User;
+import com.insane.eyewalk.api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -12,7 +18,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserService {
 
+    private final ModelMapperList modelMapping;
     private final UserRepository userRepository;
+    private final ContactRepository contactRepository;
     private final AuthenticationService authenticationService;
 
     /**

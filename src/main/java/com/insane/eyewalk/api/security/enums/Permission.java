@@ -1,4 +1,4 @@
-package com.insane.eyewalk.api.user;
+package com.insane.eyewalk.api.security.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

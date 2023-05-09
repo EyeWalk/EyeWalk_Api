@@ -1,8 +1,8 @@
 package com.insane.eyewalk.api.security.auth;
 
-import com.insane.eyewalk.api.user.Permission;
-import com.insane.eyewalk.api.user.Role;
-import com.insane.eyewalk.api.user.UserService;
+import com.insane.eyewalk.api.security.enums.Permission;
+import com.insane.eyewalk.api.security.enums.Role;
+import com.insane.eyewalk.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

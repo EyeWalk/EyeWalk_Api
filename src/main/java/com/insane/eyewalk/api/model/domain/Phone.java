@@ -1,4 +1,4 @@
-package com.insane.eyewalk.api.model;
+package com.insane.eyewalk.api.model.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

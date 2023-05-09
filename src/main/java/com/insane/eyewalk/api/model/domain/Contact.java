@@ -1,7 +1,6 @@
-package com.insane.eyewalk.api.model;
+package com.insane.eyewalk.api.model.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.insane.eyewalk.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,17 +29,17 @@ public class Contact {
     @Column(name = "bl_emergency")
     private boolean emergency = false;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "id_contact"), inverseJoinColumns = @JoinColumn(name = "id_phone"), name = "tb_contact_phone")
     @JsonIgnore
     private List<Phone> phones = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "id_contact"), inverseJoinColumns = @JoinColumn(name = "id_email"), name = "tb_contact_email")
     @JsonIgnore
     private List<Email> emails = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(joinColumns = @JoinColumn(name = "id_contact"), inverseJoinColumns = @JoinColumn(name = "id_picture"), name = "tb_contact_picture")
     @JsonIgnore
     private List<Picture> pictures = new ArrayList<>();

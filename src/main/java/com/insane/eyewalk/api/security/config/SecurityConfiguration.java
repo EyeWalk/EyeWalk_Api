@@ -13,9 +13,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
-import static com.insane.eyewalk.api.user.Permission.*;
-import static com.insane.eyewalk.api.user.Role.ADMIN;
-import static com.insane.eyewalk.api.user.Role.EDITOR;
+import static com.insane.eyewalk.api.security.enums.Permission.*;
+import static com.insane.eyewalk.api.security.enums.Role.ADMIN;
+import static com.insane.eyewalk.api.security.enums.Role.EDITOR;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration

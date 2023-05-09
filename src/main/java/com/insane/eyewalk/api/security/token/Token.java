@@ -1,6 +1,6 @@
 package com.insane.eyewalk.api.security.token;
 
-import com.insane.eyewalk.api.user.User;
+import com.insane.eyewalk.api.model.domain.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
