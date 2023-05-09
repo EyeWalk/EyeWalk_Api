@@ -1,11 +1,15 @@
 package com.insane.eyewalk.api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.insane.eyewalk.api.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @Builder
@@ -28,5 +32,9 @@ public class Plan {
 
     @Column(name = "vl_price", precision = 6, scale = 2)
     private BigDecimal price;
+
+    @OneToMany(mappedBy = "plan")
+    @JsonIgnore
+    private List<User> users = new ArrayList<>();
 
 }

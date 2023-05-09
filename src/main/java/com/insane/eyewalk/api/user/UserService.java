@@ -1,14 +1,19 @@
 package com.insane.eyewalk.api.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.insane.eyewalk.api.security.auth.AuthenticationService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.util.List;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final AuthenticationService authenticationService;
 
     /**
      * Method to verify if an administrator user exists
@@ -35,6 +40,19 @@ public class UserService {
      */
     public User getUser(String username) throws UsernameNotFoundException {
         return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+    }
+
+    /**
+     * Method to list all registered users
+     * @param principal user logged
+     * @return List of users if user has permission or throws an exception
+     * @throws IllegalAccessError if user is not active or has no permission
+     */
+    public List<User> getAll(Principal principal) throws IllegalAccessError {
+        if (authenticationService.validatePermission(principal, Permission.EDITOR_READ)) {
+            return userRepository.findAll();
+        }
+        throw new IllegalAccessError("User is not active or has no permission.");
     }
 
 }

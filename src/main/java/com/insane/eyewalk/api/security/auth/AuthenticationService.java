@@ -28,7 +28,6 @@ public class AuthenticationService {
 
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
-    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -165,7 +164,7 @@ public class AuthenticationService {
         return (
             (registerRequest.getName() != null && !registerRequest.getName().isEmpty()) &&
             (registerRequest.getEmail() !=null && !registerRequest.getEmail().isEmpty()) &&
-            (!userService.userEmailExists(registerRequest.getEmail())) &&
+            (!userRepository.existsUserByEmail(registerRequest.getEmail())) &&
             (registerRequest.getPassword() != null && !registerRequest.getPassword().isEmpty()) &&
             (registerRequest.getPassword().length() >= 5) &&
             (registerRequest.getPassword().equals(passwordVerify))

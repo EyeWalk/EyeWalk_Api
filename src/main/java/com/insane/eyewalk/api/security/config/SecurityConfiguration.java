@@ -47,9 +47,18 @@ public class SecurityConfiguration {
 
         .requestMatchers("/api/v1/plan/**").permitAll()
         .requestMatchers(GET, "/api/v1/plan/**").permitAll()
-        .requestMatchers(POST, "/api/v1/plan").hasAnyAuthority(ADMIN_CREATE.name(), EDITOR_CREATE.name())
-        .requestMatchers(PUT, "/api/v1/plan").hasAnyAuthority(ADMIN_UPDATE.name(), EDITOR_UPDATE.name())
-        .requestMatchers(DELETE, "/api/v1/plan").hasAnyAuthority(ADMIN_DELETE.name())
+        .requestMatchers(POST, "/api/v1/plan/**").hasAnyAuthority(ADMIN_CREATE.name(), EDITOR_CREATE.name())
+        .requestMatchers(PUT, "/api/v1/plan/**").hasAnyAuthority(ADMIN_UPDATE.name(), EDITOR_UPDATE.name())
+        .requestMatchers(DELETE, "/api/v1/plan/**").hasAnyAuthority(ADMIN_DELETE.name())
+
+        .requestMatchers("/api/v1/user/**").permitAll()
+        .requestMatchers(GET,"/api/v1/user").authenticated()
+        .requestMatchers(PUT,"/api/v1/user").authenticated()
+        .requestMatchers(DELETE,"/api/v1/user").authenticated()
+        .requestMatchers(GET,"/api/v1/user/**").hasAnyAuthority(ADMIN_READ.name(), EDITOR_READ.name())
+        .requestMatchers(POST,"/api/v1/user/**").hasAnyAuthority(ADMIN_CREATE.name(), EDITOR_CREATE.name())
+        .requestMatchers(PUT,"/api/v1/user/**").hasAnyAuthority(ADMIN_UPDATE.name(), EDITOR_UPDATE.name())
+        .requestMatchers(DELETE,"/api/v1/user/**").hasAnyAuthority(ADMIN_DELETE.name())
 
         .requestMatchers("/api/v1/management/**").hasAnyRole(ADMIN.name(), EDITOR.name())
         .requestMatchers(GET, "/api/v1/management/**").hasAnyAuthority(ADMIN_READ.name(), EDITOR_READ.name())

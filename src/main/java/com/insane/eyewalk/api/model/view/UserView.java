@@ -13,10 +13,12 @@ import java.time.LocalDate;
 @Builder
 public class UserView {
 
+    private long id;
     private String name;
     private String email;
     private boolean active;
     private LocalDate created;
     private LocalDate lastVisit;
+    private PlanView plan;
 
 }

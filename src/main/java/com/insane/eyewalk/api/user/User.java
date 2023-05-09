@@ -3,6 +3,7 @@ package com.insane.eyewalk.api.user;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.insane.eyewalk.api.model.Contact;
 import com.insane.eyewalk.api.model.Picture;
+import com.insane.eyewalk.api.model.Plan;
 import com.insane.eyewalk.api.security.token.Token;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -60,6 +61,10 @@ public class User implements UserDetails {
     @JoinTable(joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_contact"), name = "tb_user_contact")
     @JsonIgnore
     private List<Contact> contacts = new ArrayList<>();
+
+    @ManyToOne
+    @JoinColumn(name = "id_plan")
+    private Plan plan;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
