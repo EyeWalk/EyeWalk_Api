@@ -8,7 +8,6 @@ import com.insane.eyewalk.api.security.enums.Permission;
 import com.insane.eyewalk.api.model.domain.User;
 import com.insane.eyewalk.api.repositories.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.security.Principal;
 import java.time.LocalDate;
 import java.util.NoSuchElementException;
@@ -109,11 +107,10 @@ public class AuthenticationService {
     /**
      * Method to refresh an expired token using the refresh token if valid
      * @param request Http Servlet Request containing the Authorization Header Bearer with the refresh token
-     * @param response Authentication Response containing the access token and a new refresh token
-     * @return Http Status 200 OK containing access token and refresh token on body, 401 Unauthorized if no authorization is supplied or 403 Forbidden if refresh token is invalid
+     * @return AuthenticationResponse containing the access token and a new refresh token
      * @throws NoSuchElementException if no user is found
      */
-    public AuthenticationResponse refreshToken(HttpServletRequest request, HttpServletResponse response) throws NoSuchElementException {
+    public AuthenticationResponse refreshToken(HttpServletRequest request) throws NoSuchElementException {
 
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         final String refreshToken;

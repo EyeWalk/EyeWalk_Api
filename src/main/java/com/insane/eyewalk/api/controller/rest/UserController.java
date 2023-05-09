@@ -10,10 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.util.List;
 
@@ -50,7 +47,8 @@ public class UserController {
           description = "To get user details the request must contain the user token.",
           responses = {
                   @ApiResponse(description = "Success",responseCode = "200"),
-                  @ApiResponse(description = "Unauthorized / Invalid Token",responseCode = "403")
+                  @ApiResponse(description = "Unauthorized / Invalid Token",responseCode = "403"),
+                  @ApiResponse(description = "Expired Token",responseCode = "500")
           }
   )
   @GetMapping

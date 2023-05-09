@@ -14,8 +14,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 import static com.insane.eyewalk.api.security.enums.Permission.*;
-import static com.insane.eyewalk.api.security.enums.Role.ADMIN;
-import static com.insane.eyewalk.api.security.enums.Role.EDITOR;
+import static com.insane.eyewalk.api.security.enums.Role.*;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
@@ -50,6 +49,12 @@ public class SecurityConfiguration {
         .requestMatchers(POST, "/api/v1/plan/**").hasAnyAuthority(ADMIN_CREATE.name(), EDITOR_CREATE.name())
         .requestMatchers(PUT, "/api/v1/plan/**").hasAnyAuthority(ADMIN_UPDATE.name(), EDITOR_UPDATE.name())
         .requestMatchers(DELETE, "/api/v1/plan/**").hasAnyAuthority(ADMIN_DELETE.name())
+
+        .requestMatchers("/api/v1/contact/**").authenticated()
+        .requestMatchers(GET, "/api/v1/contact/**").authenticated()
+        .requestMatchers(POST, "/api/v1/contact/**").authenticated()
+        .requestMatchers(PUT, "/api/v1/contact/**").authenticated()
+        .requestMatchers(DELETE, "/api/v1/contact/**").authenticated()
 
         .requestMatchers("/api/v1/user/**").permitAll()
         .requestMatchers(GET,"/api/v1/user").authenticated()

@@ -1,4 +1,4 @@
-package com.insane.eyewalk.api.model.view;
+package com.insane.eyewalk.api.model.input;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PictureView {
+public class EmailInput {
 
-    private long id;
-    private String name;
+    private String email;
+    private String type;
 
 }

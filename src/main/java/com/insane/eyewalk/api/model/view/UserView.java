@@ -17,9 +17,11 @@ public class UserView {
     private String name;
     private String email;
     private boolean active;
+    private PlanView plan;
+    private LocalDate planStart;
+    private LocalDate planEnd;
+    private List<ContactView> contacts;
     private LocalDate created;
     private LocalDate lastVisit;
-    private PlanView plan;
-    private List<ContactView> contacts;
 
 }

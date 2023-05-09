@@ -48,6 +48,12 @@ public class User implements UserDetails {
     @Column(name = "dt_last_visit")
     private LocalDate lastVisit = LocalDate.now();
 
+    @Column(name = "dt_plan_start")
+    private LocalDate planStart = LocalDate.now();
+
+    @Column(name = "dt_plan_end")
+    private LocalDate planEnd = LocalDate.now().plusDays(30);
+
     @Enumerated(EnumType.STRING)
     @Column(name = "nm_role")
     private Role role;
@@ -62,6 +68,14 @@ public class User implements UserDetails {
     @ManyToOne
     @JoinColumn(name = "id_plan")
     private Plan plan;
+
+    /**
+     * Checks if the user's plan is not expired
+     * @return boolean true if the plan still valid
+     */
+    public boolean isPlanNonExpired() {
+        return planEnd.isBefore(LocalDate.now());
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

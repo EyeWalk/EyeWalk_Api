@@ -5,22 +5,20 @@ import com.insane.eyewalk.api.model.input.PlanInput;
 import com.insane.eyewalk.api.repositories.PlanRepository;
 import com.insane.eyewalk.api.security.auth.AuthenticationService;
 import com.insane.eyewalk.api.security.enums.Permission;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
+@RequiredArgsConstructor
 public class PlanService {
 
-    @Autowired
-    private ModelMapper modelMapper;
-    @Autowired
-    private PlanRepository planRepository;
-    @Autowired
-    private AuthenticationService authenticationService;
+    private final ModelMapper modelMapper;
+    private final PlanRepository planRepository;
+    private final AuthenticationService authenticationService;
 
     /**
      * Method to create a new plan. Request user must have a permission to create

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PhoneView {
 
+    private long id;
     private String phone;
     private String type;
 

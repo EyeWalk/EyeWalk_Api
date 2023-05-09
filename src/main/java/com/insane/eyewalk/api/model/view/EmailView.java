@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class EmailView {
 
+    private long id;
     private String email;
     private String type;
 
