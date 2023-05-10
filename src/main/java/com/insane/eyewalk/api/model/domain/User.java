@@ -61,8 +61,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(joinColumns = @JoinColumn(name = "id_user"), inverseJoinColumns = @JoinColumn(name = "id_contact"), name = "tb_user_contact")
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<Contact> contacts = new ArrayList<>();
 
     @ManyToOne

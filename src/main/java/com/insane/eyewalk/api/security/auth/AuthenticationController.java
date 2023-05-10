@@ -40,7 +40,9 @@ public class AuthenticationController {
                     "on the schema enum list, the USER role will be considered.",
             responses = {
                     @ApiResponse(description = "Success", responseCode = "200"),
-                    @ApiResponse(description = "Unauthorized / Invalid Token", responseCode = "403")
+                    @ApiResponse(description = "Conflict | Email already registered", responseCode = "409"),
+                    @ApiResponse(description = "Not Acceptable | Invalid data or pasword too short", responseCode = "406"),
+                    @ApiResponse(description = "Unauthorized | Invalid Token", responseCode = "403")
             }
      )
      @PostMapping("/register")

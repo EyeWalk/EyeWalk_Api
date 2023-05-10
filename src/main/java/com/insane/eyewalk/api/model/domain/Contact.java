@@ -44,7 +44,7 @@ public class Contact {
     @JsonIgnore
     private List<Picture> pictures = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_user")
     @JsonIgnore
     private User user;
