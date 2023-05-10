@@ -72,7 +72,7 @@ public class PlanService {
      * Method to get all plans available.
      * @return a list of plans if none is found will return an empty list
      */
-    public List<Plan> listPlans() {
+    public List<Plan> getPlanList() {
         return planRepository.findAll();
     }
 

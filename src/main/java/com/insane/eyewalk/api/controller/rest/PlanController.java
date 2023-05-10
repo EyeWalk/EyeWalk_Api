@@ -94,7 +94,7 @@ public class PlanController {
     )
     @GetMapping
     public ResponseEntity<List<PlanView>> listPlans() {
-        return ResponseEntity.ok(modelMapping.mapList(planService.listPlans(), PlanView.class));
+        return ResponseEntity.ok(modelMapping.mapList(planService.getPlanList(), PlanView.class));
     }
 
     @Operation(

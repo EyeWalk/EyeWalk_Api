@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class PictureView {
 
     private long id;
-    private String name;
+    private String filename;
+    private String extension;
 
 }

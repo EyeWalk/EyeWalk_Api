@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class EmailInput {
 
     private String email;
-    private String type;
+    private String type = "";
 
 }
