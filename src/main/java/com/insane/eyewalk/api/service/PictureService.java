@@ -6,6 +6,9 @@ import com.insane.eyewalk.api.repositories.PictureRepository;
 import com.insane.eyewalk.api.utils.Tool;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -15,6 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +26,65 @@ public class PictureService {
 
     private final PictureRepository pictureRepository;
     private final AppConfig appConfig;
+
+    /**
+     * Method to retrieve a picture using its filename
+     * @param filename picture file name
+     * @return Picture object
+     * @throws NoSuchElementException if no image is found
+     */
+    public Picture getByName(String filename) throws NoSuchElementException {
+        return pictureRepository.findByFilename(filename).orElseThrow();
+    }
+
+    /**
+     * Method to get a Http Header containing the content disposition related to the picture
+     * @param picture the picture that will be sent to the client.
+     * @return Http Header
+     */
+    public HttpHeaders getHeaders(Picture picture) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentDisposition(getContentDisposition(picture));
+        return headers;
+    }
+
+    /**
+     * Private method used on the Http Header to add the content disposition.
+     * @param picture the picture that will be sent it to the client.
+     * @return a Content Disposition
+     */
+    private ContentDisposition getContentDisposition(Picture picture) {
+        ContentDisposition contentDisposition;
+        if (picture.getExtension().equalsIgnoreCase("jpg") || picture.getExtension().equalsIgnoreCase("jpeg")) {
+            contentDisposition = ContentDisposition.builder("inline").filename(picture.getFilename()+".jpg").build();
+        } else if (picture.getExtension().equalsIgnoreCase("png")) {
+            contentDisposition = ContentDisposition.builder("inline").filename(picture.getFilename()+".png").build();
+        } else {
+            contentDisposition = ContentDisposition.builder("inline").filename(picture.getFilename()+"."+picture.getExtension()).build();
+        }
+        return contentDisposition;
+    }
+
+    /**
+     * Method to retrieve a Media Type from a saved Picture. This method will determine if the picture is jpg, png or other type of stream file.
+     * @param picture the picture that will be sent to the client.
+     * @return a MediaType IMAGE_JPEG or IMAGE_PNG or else APPLICATION_OCTET_STREAM for all other type of files.
+     */
+    public MediaType getMediaType(Picture picture) {
+        MediaType mediaType;
+        if (picture.getExtension().equalsIgnoreCase("jpg") || picture.getExtension().equalsIgnoreCase("jpeg")) {
+            mediaType = MediaType.IMAGE_JPEG;
+        } else if (picture.getExtension().equalsIgnoreCase("png")) {
+            mediaType = MediaType.IMAGE_PNG;
+        } else {
+            mediaType = MediaType.APPLICATION_OCTET_STREAM;
+        }
+        return mediaType;
+    }
+
+    public byte[] streamPicture(Picture picture) throws IOException {
+        return Files.readAllBytes(Paths.get(appConfig.getPicturePath(Tool.concatFileExtension(picture.getFilename(), picture.getExtension()))));
+    }
 
     /**
      * Method to persist pictures on the database and store them in the server

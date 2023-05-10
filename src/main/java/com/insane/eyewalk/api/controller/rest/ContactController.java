@@ -1,22 +1,26 @@
 package com.insane.eyewalk.api.controller.rest;
 
+import com.insane.eyewalk.api.config.AppConfig;
 import com.insane.eyewalk.api.config.ModelMapperList;
 import com.insane.eyewalk.api.model.domain.Contact;
+import com.insane.eyewalk.api.model.domain.Picture;
 import com.insane.eyewalk.api.model.domain.User;
 import com.insane.eyewalk.api.model.input.ContactInput;
 import com.insane.eyewalk.api.model.input.ContactPictureInput;
 import com.insane.eyewalk.api.model.view.ContactView;
 import com.insane.eyewalk.api.service.ContactService;
+import com.insane.eyewalk.api.service.PictureService;
 import com.insane.eyewalk.api.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,6 +34,8 @@ public class ContactController {
     private final ModelMapperList modelMapping;
     private final ContactService contactService;
     private final UserService userService;
+    private final PictureService pictureService;
+    private final AppConfig appConfig;
 
     @Operation(
             summary = "List contacts",
@@ -133,6 +139,42 @@ public class ContactController {
                 return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
             }
         } return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+    }
+
+    @Operation(
+            summary = "Get contact picture stream",
+            description = "Retrieve a picture from a contact, using the contact id and picture filename. User authorization bearer required.",
+            responses = {
+                    @ApiResponse(description = "Success", responseCode = "200"),
+                    @ApiResponse(description = "Unauthorized | User not found", responseCode = "401"),
+                    @ApiResponse(description = "Forbidden", responseCode = "403"),
+                    @ApiResponse(description = "Not Found | Contact not found", responseCode = "404"),
+                    @ApiResponse(description = "Bad Request | IO Exception", responseCode = "400"),
+                    @ApiResponse(description = "Invalid Token | Expired Token", responseCode = "500")
+            }
+    )
+    @GetMapping("/{id}/{filename}")
+    public ResponseEntity<byte[]> getContactPicture(@PathVariable("id") Long id, @PathVariable("filename") String filename, Principal principal) {
+        if (principal != null) {
+            try {
+                User user = userService.getUser(principal.getName());
+                Contact contact = contactService.getContact(id, user);
+                if (contactService.existPicture(filename, contact)) {
+                    Picture picture = pictureService.getByName(filename);
+                    return ResponseEntity
+                            .ok()
+                            .headers(pictureService.getHeaders(picture))
+                            .contentType(pictureService.getMediaType(picture))
+                            .body(pictureService.streamPicture(picture));
+                } throw new NoSuchElementException("Image not found!");
+            } catch (UsernameNotFoundException e) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            } catch (NoSuchElementException e) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            } catch (IOException e) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+        } return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @Operation(
