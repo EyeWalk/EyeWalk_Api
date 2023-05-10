@@ -93,7 +93,7 @@ public class PlanController {
             responses = {@ApiResponse(description = "Success", responseCode = "200")}
     )
     @GetMapping
-    public ResponseEntity<List<PlanView>> listPlans() {
+    public ResponseEntity<List<PlanView>> getPlanList() {
         return ResponseEntity.ok(modelMapping.mapList(planService.getPlanList(), PlanView.class));
     }
 

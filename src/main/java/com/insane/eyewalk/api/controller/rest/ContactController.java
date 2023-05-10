@@ -43,7 +43,7 @@ public class ContactController {
     )
     @GetMapping
     @ResponseBody
-    public ResponseEntity<List<ContactView>> list(Principal principal) {
+    public ResponseEntity<List<ContactView>> getContactList(Principal principal) {
         if (principal != null) {
             try {
                 User user = userService.getUser(principal.getName());
@@ -67,7 +67,7 @@ public class ContactController {
     )
     @GetMapping("/{id}")
     @ResponseBody
-    public ResponseEntity<ContactView> get(@PathVariable long id, Principal principal) {
+    public ResponseEntity<ContactView> getContact(@PathVariable long id, Principal principal) {
         if (principal != null) {
             try {
                 User user = userService.getUser(principal.getName());
@@ -93,7 +93,7 @@ public class ContactController {
     )
     @PostMapping
     @ResponseBody
-    public ResponseEntity<ContactView> add(@RequestBody ContactInput contactInput, Principal principal) {
+    public ResponseEntity<ContactView> createContact(@RequestBody ContactInput contactInput, Principal principal) {
         if (principal != null) {
             try {
                 User user = userService.getUser(principal.getName());
@@ -119,7 +119,7 @@ public class ContactController {
     )
     @PostMapping("/pictures")
     @ResponseBody
-    public ResponseEntity<ContactView> addPictures(@ModelAttribute ContactPictureInput contactPictureInput, Principal principal) {
+    public ResponseEntity<ContactView> addPicturesToContact(@ModelAttribute ContactPictureInput contactPictureInput, Principal principal) {
         if (principal != null) {
             try {
                 User user = userService.getUser(principal.getName());
@@ -147,7 +147,7 @@ public class ContactController {
             }
     )
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@PathVariable long id, Principal principal) {
+    public ResponseEntity<HttpStatus> deleteContact(@PathVariable long id, Principal principal) {
         if (principal != null) {
             try {
                 User user = userService.getUser(principal.getName());
