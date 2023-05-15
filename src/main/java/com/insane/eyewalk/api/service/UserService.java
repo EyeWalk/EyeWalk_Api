@@ -1,30 +1,22 @@
 package com.insane.eyewalk.api.service;
 
-import com.insane.eyewalk.api.config.ModelMapperList;
-import com.insane.eyewalk.api.repositories.PlanRepository;
 import com.insane.eyewalk.api.security.auth.AuthenticationService;
-import com.insane.eyewalk.api.security.auth.RegisterRequest;
 import com.insane.eyewalk.api.security.enums.Permission;
 import com.insane.eyewalk.api.security.enums.Role;
 import com.insane.eyewalk.api.model.domain.User;
 import com.insane.eyewalk.api.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.security.Principal;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
-    private final PlanRepository planRepository;
     private final AuthenticationService authenticationService;
-    private final ModelMapperList modelMapping;
 
     /**
      * Method to verify if an administrator user exists

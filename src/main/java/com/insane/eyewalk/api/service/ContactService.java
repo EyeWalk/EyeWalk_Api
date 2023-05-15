@@ -1,9 +1,7 @@
 package com.insane.eyewalk.api.service;
 
-import com.insane.eyewalk.api.config.AppConfig;
 import com.insane.eyewalk.api.config.ModelMapperList;
 import com.insane.eyewalk.api.model.domain.Contact;
-import com.insane.eyewalk.api.model.domain.Picture;
 import com.insane.eyewalk.api.model.domain.User;
 import com.insane.eyewalk.api.model.input.ContactInput;
 import com.insane.eyewalk.api.model.input.ContactPictureInput;
@@ -11,7 +9,6 @@ import com.insane.eyewalk.api.repositories.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.InvalidFileNameException;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,7 +21,6 @@ public class ContactService {
     private final EmailService emailService;
     private final PhoneService phoneService;
     private final PictureService pictureService;
-    private final AppConfig appConfig;
 
     /**
      * Method to list all contacts from a specific user

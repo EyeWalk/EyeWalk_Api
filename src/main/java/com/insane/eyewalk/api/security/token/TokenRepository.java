@@ -1,8 +1,9 @@
 package com.insane.eyewalk.api.security.token;
 
+import com.insane.eyewalk.api.model.domain.User;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -12,4 +13,7 @@ public interface TokenRepository extends JpaRepository<Token, Long> {
     List<Token> findAllValidTokenByUser(Long id);
 
     Optional<Token> findByToken(String token);
+
+    @Transactional
+    void removeAllByUser(User user);
 }
