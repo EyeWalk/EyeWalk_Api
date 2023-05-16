@@ -19,6 +19,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/api/v1/plan")
 @RequiredArgsConstructor
+@CrossOrigin
 @Tag(name = "Plan")
 public class PlanController {
 

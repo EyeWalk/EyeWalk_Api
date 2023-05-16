@@ -28,6 +28,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequestMapping("/api/v1/contact")
 @RequiredArgsConstructor
+@CrossOrigin
 @Tag(name = "Contact")
 public class ContactController {
 

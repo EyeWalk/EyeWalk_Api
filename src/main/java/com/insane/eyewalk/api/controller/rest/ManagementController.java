@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/v1/management")
 @Tag(name = "Management")
+@CrossOrigin
 @Hidden
 public class ManagementController {
 
