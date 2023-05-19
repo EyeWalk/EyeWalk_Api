@@ -1,5 +1,6 @@
 package com.insane.eyewalk.api.security.auth;
 
+import com.insane.eyewalk.api.repositories.PlanRepository;
 import com.insane.eyewalk.api.security.config.JwtService;
 import com.insane.eyewalk.api.security.token.Token;
 import com.insane.eyewalk.api.security.token.TokenRepository;
@@ -25,6 +26,7 @@ public class AuthenticationService {
 
     private final TokenRepository tokenRepository;
     private final UserRepository userRepository;
+    private final PlanRepository planRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
@@ -41,6 +43,9 @@ public class AuthenticationService {
             .password(passwordEncoder.encode(request.getPassword()))
             .created(LocalDate.now())
             .lastVisit(LocalDate.now())
+            .planStart(LocalDate.now())
+            .planEnd(LocalDate.now().plusDays(30))
+            .plan(planRepository.findAll().get(0))
             .active(true)
             .role(request.getRole())
             .build();
